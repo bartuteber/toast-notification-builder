@@ -10,31 +10,36 @@ const { active } = storeToRefs(store)
 
 const POSITIONS: Position[] = ['top-left', 'top-right', 'bottom-left', 'bottom-right']
 
-// Group by position so each corner stacks independently
-// toasts pile up vertically.
+// Group by position so each corner stacks independently. All four stacks are
+// always rendered (not filtered) so the TransitionGroup stays mounted and can
+// animate the first toast in / the last toast out.
 const stacks = computed(() =>
   POSITIONS.map((position) => ({
     position,
     items: active.value.filter((n) => n.position === position),
-  })).filter((stack) => stack.items.length > 0),
+  })),
 )
 </script>
 
 <template>
   <Teleport to="body">
-    <div
+    <TransitionGroup
       v-for="stack in stacks"
       :key="stack.position"
+      tag="div"
+      name="toast"
       class="toast-stack"
       :class="`is-${stack.position}`"
     >
-      <ToastItem
+      <div
         v-for="toast in stack.items"
         :key="toast.id"
-        :config="toast"
-        @close="store.dismiss(toast.id)"
-      />
-    </div>
+        class="toast-wrapper"
+        :class="`anim-${toast.animation}`"
+      >
+        <ToastItem :config="toast" @close="store.dismiss(toast.id)" />
+      </div>
+    </TransitionGroup>
   </Teleport>
 </template>
 
@@ -42,6 +47,8 @@ const stacks = computed(() =>
 .toast-stack {
   position: fixed;
   z-index: 1000;
+  // empty stacks must not block clicks; toasts re-enable pointer events
+  pointer-events: none;
   display: flex;
   // column-reverse renders the last (newest) toast on top of the stack
   flex-direction: column-reverse;
@@ -49,24 +56,64 @@ const stacks = computed(() =>
   padding: var(--space-4);
   max-width: min(92vw, 380px);
 
-  &.is-top-left {
-    top: 0;
+  // align toasts to their anchored side
+  &.is-top-left,
+  &.is-bottom-left {
     left: 0;
+    align-items: flex-start;
+    // slide animation direction for this side (animate.css keyframe names)
+    --slide-in: slideInLeft;
+    --slide-out: slideOutLeft;
   }
 
+  &.is-top-right,
+  &.is-bottom-right {
+    right: 0;
+    align-items: flex-end;
+    --slide-in: slideInRight;
+    --slide-out: slideOutRight;
+  }
+
+  &.is-top-left,
   &.is-top-right {
     top: 0;
-    right: 0;
   }
 
-  &.is-bottom-left {
-    bottom: 0;
-    left: 0;
-  }
-
+  &.is-bottom-left,
   &.is-bottom-right {
     bottom: 0;
-    right: 0;
   }
+}
+
+.toast-wrapper {
+  pointer-events: auto;
+}
+
+// existing toasts glide to their new slot when the stack changes
+.toast-move {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+// animate.css keyframes, picked per toast via its anim-* class. A running CSS
+// animation outranks the inline FLIP transform Vue applies, so no !important.
+.anim-fade.toast-enter-active {
+  animation: fadeIn 0.3s both;
+}
+.anim-fade.toast-leave-active {
+  animation: fadeOut 0.3s both;
+}
+
+.anim-slide.toast-enter-active {
+  animation: var(--slide-in) 0.4s both;
+}
+.anim-slide.toast-leave-active {
+  animation: var(--slide-out) 0.4s both;
+}
+
+.anim-bounce.toast-enter-active {
+  animation: bounceIn 0.5s both;
+}
+.anim-bounce.toast-leave-active {
+  animation: bounceOut 0.5s both;
 }
 </style>

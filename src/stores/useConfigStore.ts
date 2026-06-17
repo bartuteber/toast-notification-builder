@@ -13,6 +13,7 @@ export const useConfigStore = defineStore('config', {
     textColor: '#FFFFFF',
     showIcon: true,
     showCloseButton: true,
+    animation: 'slide',
   }),
   getters: {
     isPersistent: (state) => state.duration === 0,

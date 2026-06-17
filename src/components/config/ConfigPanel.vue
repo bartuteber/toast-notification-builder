@@ -5,7 +5,11 @@ import BaseTextField from '@/components/ui/BaseTextField.vue'
 import BaseTextArea from '@/components/ui/BaseTextArea.vue'
 import BaseCheckbox from '@/components/ui/BaseCheckbox.vue'
 import ColorField from '@/components/ui/ColorField.vue'
-import { POSITION_OPTIONS, TYPE_OPTIONS } from '@/lib/options.ts'
+import {
+  ANIMATION_OPTIONS,
+  POSITION_OPTIONS,
+  TYPE_OPTIONS,
+} from '@/lib/options.ts'
 import { storeToRefs } from 'pinia'
 import { useConfigStore } from '@/stores/useConfigStore.ts'
 
@@ -19,6 +23,7 @@ const {
   textColor,
   showIcon,
   showCloseButton,
+  animation,
 } = storeToRefs(configStore)
 
 // setType also applies the type's default background, so bridge it via computed.
@@ -89,6 +94,13 @@ const persistent = computed({
         <BaseCheckbox v-model="showCloseButton" label="Show Close Button" />
       </div>
     </div>
+
+    <SegmentedControl
+      v-model:selected="animation"
+      :options="ANIMATION_OPTIONS"
+      label="Animation"
+      :columns="3"
+    />
   </div>
 </template>
 

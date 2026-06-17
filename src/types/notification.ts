@@ -13,6 +13,7 @@ export interface NotificationConfig {
   textColor: string
   showIcon: boolean
   showCloseButton: boolean
+  animation: AnimationValue
 }
 
 // NotificationConfig without the instance id — the shape of an editable draft
