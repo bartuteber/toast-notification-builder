@@ -30,6 +30,10 @@ export const useConfigStore = defineStore('config', {
     setPersistent(value: boolean) {
       this.duration = value ? 0 : 1
     },
+    // Load a saved preset's config into the draft (preset.config is a full draft).
+    setConfig(config: NotificationDraft) {
+      this.$patch(config)
+    },
     reset() {
       this.$reset()
     },

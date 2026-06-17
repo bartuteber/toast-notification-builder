@@ -4,6 +4,7 @@
 // Child components are introduced phase by phase.
 import ConfigPanel from '@/components/config/ConfigPanel.vue';
 import LivePreview from '@/components/preview/LivePreview.vue';
+import PresetList from '@/components/presets/PresetList.vue';
 import ToastContainer from '@/components/toast/ToastContainer.vue';
 </script>
 
@@ -24,6 +25,7 @@ import ToastContainer from '@/components/toast/ToastContainer.vue';
       <section class="panel">
         <h2 class="panel-title">Preview</h2>
         <LivePreview />
+        <PresetList />
       </section>
     </main>
 
@@ -61,6 +63,9 @@ import ToastContainer from '@/components/toast/ToastContainer.vue';
 }
 
 .panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
@@ -68,7 +73,7 @@ import ToastContainer from '@/components/toast/ToastContainer.vue';
   box-shadow: var(--shadow);
 
   &-title {
-    margin: 0 0 var(--space-5);
+    margin: 0;
     font-size: var(--font-md);
     font-weight: 600;
   }
