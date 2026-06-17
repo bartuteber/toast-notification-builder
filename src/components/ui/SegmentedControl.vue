@@ -1,23 +1,23 @@
 <script setup lang="ts" generic="T extends string">
-import { computed } from 'vue';
+import { computed } from 'vue'
 
 interface SegmentOption {
-  value: T;
-  label: string;
-  icon?: string;
+  value: T
+  label: string
+  icon?: string
 }
 
-const model = defineModel<T>({ required: true });
+const model = defineModel<T>({ required: true })
 
 const props = defineProps<{
-  options: SegmentOption[];
-  label?: string;
-  columns?: number;
-}>();
+  options: readonly SegmentOption[]
+  label?: string
+  columns?: number
+}>()
 
 const gridStyle = computed(() => ({
   gridTemplateColumns: `repeat(${props.columns ?? props.options.length}, 1fr)`,
-}));
+}))
 </script>
 
 <template>

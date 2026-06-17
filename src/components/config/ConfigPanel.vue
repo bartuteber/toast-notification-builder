@@ -1,49 +1,31 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
 import SegmentedControl from '../ui/SegmentedControl.vue'
 import BaseTextField from '../ui/BaseTextField.vue'
 import BaseTextArea from '../ui/BaseTextArea.vue'
 import BaseCheckbox from '../ui/BaseCheckbox.vue'
 import ColorField from '../ui/ColorField.vue'
+import { POSITION_OPTIONS, TYPE_OPTIONS } from '@/lib/options.ts'
+import { storeToRefs } from 'pinia'
+import { useConfigStore } from '@/stores/useConfigStore.ts'
 
-// Local state for now — replaced by useConfigStore once the domain layer lands.
-// Unions are inlined temporarily; they move to types/notification.ts in Phase 1.
-type TypeValue = 'success' | 'error' | 'warning' | 'info'
-type PositionValue = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
-type AnimationValue = 'fade' | 'slide' | 'bounce'
+const configStore = useConfigStore()
+const {
+  type,
+  title,
+  message,
+  duration,
+  position,
+  backgroundColor,
+  textColor,
+  showIcon,
+  showCloseButton,
+} = storeToRefs(configStore)
 
-const type = ref<TypeValue>('success')
-const title = ref('Success!')
-const message = ref('Your changes have been saved successfully.')
-const duration = ref(3)
-const persistent = ref(false)
-const position = ref<PositionValue>('top-left')
-const backgroundColor = ref('#22c55e')
-const textColor = ref('#FFFFFF')
-const showIcon = ref(true)
-const showCloseButton = ref(true)
-const animation = ref<AnimationValue>('slide')
-
-// `satisfies` keeps the literal value types while checking option shape.
-const TYPE_OPTIONS = [
-  { value: 'success', label: 'Success', icon: '✓' },
-  { value: 'error', label: 'Error', icon: '✕' },
-  { value: 'warning', label: 'Warning', icon: '⚠' },
-  { value: 'info', label: 'Info', icon: 'ℹ' },
-] satisfies { value: TypeValue; label: string; icon: string }[]
-
-const POSITION_OPTIONS = [
-  { value: 'top-left', label: 'Top Left' },
-  { value: 'top-right', label: 'Top Right' },
-  { value: 'bottom-left', label: 'Bottom Left' },
-  { value: 'bottom-right', label: 'Bottom Right' },
-] satisfies { value: PositionValue; label: string }[]
-
-const ANIMATION_OPTIONS = [
-  { value: 'fade', label: 'Fade' },
-  { value: 'slide', label: 'Slide' },
-  { value: 'bounce', label: 'Bounce' },
-] satisfies { value: AnimationValue; label: string }[]
+const persistent = computed({
+  get: () => configStore.isPersistent,
+  set: (value) => configStore.setPersistent(value),
+})
 </script>
 
 <template>
@@ -96,13 +78,6 @@ const ANIMATION_OPTIONS = [
         <BaseCheckbox v-model="showCloseButton" label="Show Close Button" />
       </div>
     </div>
-
-    <SegmentedControl
-      v-model="animation"
-      :options="ANIMATION_OPTIONS"
-      label="Animation"
-      :columns="3"
-    />
   </div>
 </template>
 
