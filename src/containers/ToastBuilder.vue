@@ -2,18 +2,19 @@
 // Screen-level container. Owns layout and (later) orchestrates the stores:
 // config draft -> live preview, preset load/save, and the active-toast overlay.
 // Child components are introduced phase by phase.
-import ConfigPanel from '@/components/config/ConfigPanel.vue';
-import LivePreview from '@/components/preview/LivePreview.vue';
-import PresetList from '@/components/presets/PresetList.vue';
-import ToastContainer from '@/components/toast/ToastContainer.vue';
+import ConfigPanel from '@/components/config/ConfigPanel.vue'
+import LivePreview from '@/components/preview/LivePreview.vue'
+import PresetList from '@/components/presets/PresetList.vue'
+import ToastContainer from '@/components/toast/ToastContainer.vue'
 </script>
 
 <template>
   <div class="builder">
-    <header class="builder-header">
-      <h1 class="builder-title">Toast Notification Builder</h1>
-    </header>
-
+    <div class="app-bar">
+      <header class="builder-header">
+        <h1 class="builder-title">Toast Notification Builder</h1>
+      </header>
+    </div>
     <main class="builder-main">
       <!-- Left: everything the user configures -->
       <section class="panel">
@@ -36,9 +37,19 @@ import ToastContainer from '@/components/toast/ToastContainer.vue';
 
 <style scoped lang="scss">
 .builder {
+  --app-bar-height: 64px;
+
+  & .app-bar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10;
+    height: var(--app-bar-height);
+  }
   min-height: 100vh;
   background: var(--color-bg);
   color: var(--color-text);
+  padding-top: var(--app-bar-height);
 
   &-header {
     background: var(--color-surface);
@@ -71,6 +82,8 @@ import ToastContainer from '@/components/toast/ToastContainer.vue';
   border-radius: var(--radius);
   padding: var(--space-6);
   box-shadow: var(--shadow);
+  height: calc(100vh - (var(--app-bar-height) + var(--space-6) * 2));
+  overflow-y: auto;
 
   &-title {
     margin: 0;
