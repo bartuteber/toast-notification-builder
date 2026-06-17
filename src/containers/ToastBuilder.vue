@@ -7,6 +7,9 @@ import LivePreview from '@/components/preview/LivePreview.vue'
 import PresetList from '@/components/presets/PresetList.vue'
 import CodeExport from '@/components/export/CodeExport.vue'
 import ToastContainer from '@/components/toast/ToastContainer.vue'
+import { useTheme } from '@/composables/useTheme'
+
+const { theme, toggle } = useTheme()
 </script>
 
 <template>
@@ -14,6 +17,9 @@ import ToastContainer from '@/components/toast/ToastContainer.vue'
     <div class="app-bar">
       <header class="builder-header">
         <h1 class="builder-title">Toast Notification Builder</h1>
+        <button class="theme-toggle" type="button" @click="toggle">
+          {{ theme === 'light' ? '🌙' : '☀️' }}
+        </button>
       </header>
     </div>
     <main class="builder-main">
@@ -54,9 +60,13 @@ import ToastContainer from '@/components/toast/ToastContainer.vue'
   padding-top: var(--app-bar-height);
 
   &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
-    padding: var(--space-4) var(--space-6);
+    padding: 0 var(--space-6);
   }
 
   &-title {
@@ -72,6 +82,23 @@ import ToastContainer from '@/components/toast/ToastContainer.vue'
     max-width: 1400px;
     margin: 0 auto;
     padding: var(--space-6);
+  }
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  font-size: 1.1rem;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--color-primary);
   }
 }
 
