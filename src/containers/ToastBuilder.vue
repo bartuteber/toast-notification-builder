@@ -4,6 +4,7 @@
 // Child components are introduced phase by phase.
 import ConfigPanel from '@/components/config/ConfigPanel.vue';
 import LivePreview from '@/components/preview/LivePreview.vue';
+import ToastContainer from '@/components/toast/ToastContainer.vue';
 </script>
 
 <template>
@@ -26,7 +27,8 @@ import LivePreview from '@/components/preview/LivePreview.vue';
       </section>
     </main>
 
-    <!-- ToastContainer: fixed overlay, position-aware stacking, mounts above all -->
+    <!-- Fixed overlay, position-aware stacking, teleported to body -->
+    <ToastContainer />
   </div>
 </template>
 

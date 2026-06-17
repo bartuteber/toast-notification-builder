@@ -2,11 +2,20 @@
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import ToastItem from '@/components/toast/ToastItem.vue'
+import BaseButton from '@/components/ui/BaseButton.vue'
 import { useConfigStore } from '@/stores/useConfigStore'
+import { useNotificationStore } from '@/stores/useNotificationStore'
 import type { ToastVisual } from '@/types/notification'
 
 const configStore = useConfigStore()
+const notificationStore = useNotificationStore()
 const { position } = storeToRefs(configStore)
+
+// Snapshot the current draft into a live toast. `show` spreads it, so later
+// config edits never mutate notifications already on screen.
+function showNotification() {
+  notificationStore.show(configStore.$state)
+}
 
 // Explicit visual projection: reactive, exactly ToastVisual, and never hands the
 // child a reference to the store's internal state.
@@ -22,14 +31,24 @@ const toastConfig = computed<ToastVisual>(() => ({
 </script>
 
 <template>
-  <div class="preview-stage">
-    <div class="preview-toast" :class="`is-${position}`">
-      <ToastItem :config="toastConfig" />
+  <div class="preview">
+    <div class="preview-stage">
+      <div class="preview-toast" :class="`is-${position}`">
+        <ToastItem :config="toastConfig" />
+      </div>
     </div>
+
+    <BaseButton block @click="showNotification">Show Notification</BaseButton>
   </div>
 </template>
 
 <style scoped lang="scss">
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
 .preview-stage {
   position: relative;
   min-height: 280px;

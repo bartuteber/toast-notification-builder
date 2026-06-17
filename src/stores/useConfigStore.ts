@@ -1,13 +1,9 @@
-import type {
-  ActiveNotification,
-  NotificationConfig,
-  NotificationType,
-} from '@/types/notification'
+import type { NotificationDraft, NotificationType } from '@/types/notification'
 import { defineStore } from 'pinia'
 import { TYPE_DEFAULTS } from '@/lib/defaults'
 
 export const useConfigStore = defineStore('config', {
-  state: (): Omit<NotificationConfig, 'id'> => ({
+  state: (): NotificationDraft => ({
     type: 'success',
     title: TYPE_DEFAULTS.success.title,
     message: TYPE_DEFAULTS.success.message,
@@ -33,12 +29,6 @@ export const useConfigStore = defineStore('config', {
     },
     setPersistent(value: boolean) {
       this.duration = value ? 0 : 1
-    },
-    showNotification() {
-      const _activeNotification: ActiveNotification = Object.assign(
-        { id: crypto.randomUUID(), createdAt: Date.now() },
-        this.$state,
-      )
     },
     reset() {
       this.$reset()
