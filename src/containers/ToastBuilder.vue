@@ -5,6 +5,7 @@
 import ConfigPanel from '@/components/config/ConfigPanel.vue'
 import LivePreview from '@/components/preview/LivePreview.vue'
 import PresetList from '@/components/presets/PresetList.vue'
+import CodeExport from '@/components/export/CodeExport.vue'
 import ToastContainer from '@/components/toast/ToastContainer.vue'
 </script>
 
@@ -27,6 +28,7 @@ import ToastContainer from '@/components/toast/ToastContainer.vue'
         <h2 class="panel-title">Preview</h2>
         <LivePreview />
         <PresetList />
+        <CodeExport />
       </section>
     </main>
 
