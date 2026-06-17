@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import SegmentedControl from '../ui/SegmentedControl.vue'
-import BaseTextField from '../ui/BaseTextField.vue'
-import BaseTextArea from '../ui/BaseTextArea.vue'
-import BaseCheckbox from '../ui/BaseCheckbox.vue'
-import ColorField from '../ui/ColorField.vue'
+import SegmentedControl from '@/components/ui/SegmentedControl.vue'
+import BaseTextField from '@/components/ui/BaseTextField.vue'
+import BaseTextArea from '@/components/ui/BaseTextArea.vue'
+import BaseCheckbox from '@/components/ui/BaseCheckbox.vue'
+import ColorField from '@/components/ui/ColorField.vue'
 import { POSITION_OPTIONS, TYPE_OPTIONS } from '@/lib/options.ts'
 import { storeToRefs } from 'pinia'
 import { useConfigStore } from '@/stores/useConfigStore.ts'
 
 const configStore = useConfigStore()
 const {
-  type,
   title,
   message,
   duration,
@@ -22,6 +21,12 @@ const {
   showCloseButton,
 } = storeToRefs(configStore)
 
+// setType also applies the type's default background, so bridge it via computed.
+const type = computed({
+  get: () => configStore.type,
+  set: (value) => configStore.setType(value),
+})
+
 const persistent = computed({
   get: () => configStore.isPersistent,
   set: (value) => configStore.setPersistent(value),
@@ -30,7 +35,13 @@ const persistent = computed({
 
 <template>
   <div class="config">
-    <SegmentedControl v-model="type" :options="TYPE_OPTIONS" label="Type" :columns="4" />
+    <SegmentedControl
+      v-model:selected="type"
+      :options="TYPE_OPTIONS"
+      label="Type"
+      :columns="4"
+      :active-color="backgroundColor"
+    />
 
     <BaseTextField v-model="title" label="Title" />
 
@@ -55,7 +66,7 @@ const persistent = computed({
     </div>
 
     <SegmentedControl
-      v-model="position"
+      v-model:selected="position"
       :options="POSITION_OPTIONS"
       label="Position"
       :columns="2"

@@ -2,7 +2,8 @@
 // Screen-level container. Owns layout and (later) orchestrates the stores:
 // config draft -> live preview, preset load/save, and the active-toast overlay.
 // Child components are introduced phase by phase.
-import ConfigPanel from '../components/config/ConfigPanel.vue';
+import ConfigPanel from '@/components/config/ConfigPanel.vue';
+import LivePreview from '@/components/preview/LivePreview.vue';
 </script>
 
 <template>
@@ -21,7 +22,7 @@ import ConfigPanel from '../components/config/ConfigPanel.vue';
       <!-- Right: live preview, trigger, presets, code export -->
       <section class="panel">
         <h2 class="panel-title">Preview</h2>
-        <!-- LivePreview + PresetList + CodeExport mount here -->
+        <LivePreview />
       </section>
     </main>
 

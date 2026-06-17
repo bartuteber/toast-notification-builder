@@ -15,6 +15,20 @@ export interface NotificationConfig {
   showCloseButton: boolean
 }
 
+// The fields a toast actually renders — shared by the live preview and the
+// real overlay. Position/duration are the container's/timer's concern, not the
+// item's, so they're intentionally excluded.
+export type ToastVisual = Pick<
+  NotificationConfig,
+  | 'type'
+  | 'title'
+  | 'message'
+  | 'backgroundColor'
+  | 'textColor'
+  | 'showIcon'
+  | 'showCloseButton'
+>
+
 export interface ActiveNotification extends NotificationConfig {
   createdAt: number
 }

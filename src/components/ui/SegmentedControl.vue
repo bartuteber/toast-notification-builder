@@ -7,12 +7,14 @@ interface SegmentOption {
   icon?: string
 }
 
-const model = defineModel<T>({ required: true })
+const selected = defineModel<T>('selected', { required: true })
 
 const props = defineProps<{
   options: readonly SegmentOption[]
   label?: string
   columns?: number
+  // when set, the active item uses this color instead of the default primary
+  activeColor?: string
 }>()
 
 const gridStyle = computed(() => ({
@@ -29,8 +31,13 @@ const gridStyle = computed(() => ({
         :key="opt.value"
         type="button"
         class="seg-item"
-        :class="{ 'is-active': opt.value === model }"
-        @click="model = opt.value"
+        :class="{ 'is-active': opt.value === selected }"
+        :style="
+          activeColor && opt.value === selected
+            ? { background: activeColor, borderColor: activeColor }
+            : undefined
+        "
+        @click="selected = opt.value"
       >
         <span v-if="opt.icon" class="seg-icon">{{ opt.icon }}</span>
         <span>{{ opt.label }}</span>
