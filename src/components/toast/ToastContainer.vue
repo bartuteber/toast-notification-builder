@@ -52,7 +52,7 @@ const stacks = computed(() =>
 <style scoped lang="scss">
 .toast-stack {
   position: fixed;
-  z-index: 1000;
+  z-index: var(--z-toast);
   // empty stacks must not block clicks; toasts re-enable pointer events
   pointer-events: none;
   display: flex;

@@ -32,7 +32,7 @@ const { theme, toggle } = useTheme()
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 10;
+  z-index: var(--z-app-bar);
   height: var(--app-bar-height);
 
   &-inner {

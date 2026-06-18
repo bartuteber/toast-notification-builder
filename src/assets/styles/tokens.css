@@ -49,6 +49,12 @@
 
   /* Layout */
   --app-bar-height: 64px;
+
+  /* Z-index scale — single source for stacking order, low to high.
+     Always layer via these tokens so the order stays comparable at a glance. */
+  --z-raised: 1; /* lifted above local siblings (e.g. copy button over code) */
+  --z-app-bar: 10; /* fixed top bar */
+  --z-toast: 1000; /* toast overlay, above everything */
 }
 
 [data-theme='dark'] {
