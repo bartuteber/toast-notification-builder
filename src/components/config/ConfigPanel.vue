@@ -5,11 +5,7 @@ import BaseTextField from '@/components/ui/BaseTextField.vue'
 import BaseTextArea from '@/components/ui/BaseTextArea.vue'
 import BaseCheckbox from '@/components/ui/BaseCheckbox.vue'
 import ColorField from '@/components/ui/ColorField.vue'
-import {
-  ANIMATION_OPTIONS,
-  POSITION_OPTIONS,
-  TYPE_OPTIONS,
-} from '@/lib/options.ts'
+import { ANIMATION_OPTIONS, POSITION_OPTIONS, TYPE_OPTIONS } from '@/lib/options.ts'
 import { storeToRefs } from 'pinia'
 import { useConfigStore } from '@/stores/useConfigStore.ts'
 
@@ -40,6 +36,7 @@ const persistent = computed({
 
 <template>
   <div class="config">
+    <!-- Type -->
     <SegmentedControl
       v-model:selected="type"
       :options="TYPE_OPTIONS"
@@ -48,11 +45,12 @@ const persistent = computed({
       :active-color="backgroundColor"
     />
 
+    <!-- Title + Message -->
     <BaseTextField v-model="title" label="Title" />
 
     <BaseTextArea v-model="message" label="Message" :rows="3" />
 
-    <!-- Duration: native range is enough; no need to wrap it. -->
+    <!-- Duration -->
     <div class="field">
       <label class="field-label" for="cfg-duration">Duration</label>
       <div class="slider-row">
@@ -60,7 +58,7 @@ const persistent = computed({
           id="cfg-duration"
           class="slider"
           type="range"
-          min="1"
+          min="0"
           max="10"
           :disabled="persistent"
           v-model.number="duration"
@@ -70,6 +68,7 @@ const persistent = computed({
       <BaseCheckbox v-model="persistent" label="Persistent (no auto-dismiss)" />
     </div>
 
+    <!-- Position -->
     <SegmentedControl
       v-model:selected="position"
       :options="POSITION_OPTIONS"
@@ -77,8 +76,7 @@ const persistent = computed({
       :columns="2"
     />
 
-    <hr class="divider" />
-
+    <!-- Style -->
     <div class="field">
       <span class="field-label is-section">Style</span>
       <div class="style-grid">
@@ -87,6 +85,7 @@ const persistent = computed({
       </div>
     </div>
 
+    <!-- Options -->
     <div class="field">
       <span class="field-label">Options</span>
       <div class="options-row">
@@ -95,6 +94,7 @@ const persistent = computed({
       </div>
     </div>
 
+    <!-- Animation -->
     <SegmentedControl
       v-model:selected="animation"
       :options="ANIMATION_OPTIONS"
@@ -142,12 +142,6 @@ const persistent = computed({
 .slider {
   flex: 1;
   accent-color: var(--color-primary);
-}
-
-.divider {
-  border: none;
-  border-top: 1px solid var(--color-border);
-  margin: 0;
 }
 
 .style-grid {
