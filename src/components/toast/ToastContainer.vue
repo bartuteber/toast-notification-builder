@@ -37,7 +37,13 @@ const stacks = computed(() =>
         class="toast-wrapper"
         :class="`anim-${toast.animation}`"
       >
-        <ToastItem :config="toast" @close="store.dismiss(toast.id)" />
+        <ToastItem
+          :config="toast"
+          :progress="
+            toast.duration > 0 ? { mode: 'countdown', durationMs: toast.duration } : undefined
+          "
+          @close="store.dismiss(toast.id)"
+        />
       </div>
     </TransitionGroup>
   </Teleport>

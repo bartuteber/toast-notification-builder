@@ -5,11 +5,11 @@ import ToastItem from '@/components/toast/ToastItem.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import { useConfigStore } from '@/stores/useConfigStore'
 import { useNotificationStore } from '@/stores/useNotificationStore'
-import type { ToastVisual } from '@/types/notification'
+import type { ToastProgress, ToastVisual } from '@/types/notification'
 
 const configStore = useConfigStore()
 const notificationStore = useNotificationStore()
-const { position } = storeToRefs(configStore)
+const { position, isPersistent } = storeToRefs(configStore)
 
 // Snapshot the current draft into a live toast. `show` spreads it, so later
 // config edits never mutate notifications already on screen.
@@ -28,13 +28,19 @@ const toastConfig = computed<ToastVisual>(() => ({
   showIcon: configStore.showIcon,
   showCloseButton: configStore.showCloseButton,
 }))
+
+// The preview is a static mockup, so the bar sits half-full to hint at the
+// countdown. Persistent toasts (duration 0) have no countdown, so no bar.
+const previewProgress = computed<ToastProgress | undefined>(() =>
+  isPersistent.value ? undefined : { mode: 'static', fraction: 0.5 },
+)
 </script>
 
 <template>
   <div class="preview">
     <div class="preview-stage">
       <div class="preview-toast" :class="`is-${position}`">
-        <ToastItem :config="toastConfig" />
+        <ToastItem :config="toastConfig" :progress="previewProgress" />
       </div>
     </div>
 

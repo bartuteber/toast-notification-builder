@@ -32,6 +32,12 @@ export interface ActiveNotification extends NotificationConfig {
   createdAt: number
 }
 
+// Drives the optional progress bar shown under a toast. A live toast counts its
+// remaining time down over `durationMs`; the preview shows a fixed fill instead.
+export type ToastProgress =
+  | { mode: 'countdown'; durationMs: number } // animates full -> empty
+  | { mode: 'static'; fraction: number } // fixed fill, 0-1, no animation
+
 // Shape of the notification store's state: the toasts currently on screen.
 export interface NotificationState {
   active: ActiveNotification[]
