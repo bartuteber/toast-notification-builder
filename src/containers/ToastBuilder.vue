@@ -7,6 +7,7 @@ import LivePreview from '@/components/preview/LivePreview.vue'
 import PresetList from '@/components/presets/PresetList.vue'
 import CodeExport from '@/components/export/CodeExport.vue'
 import ToastContainer from '@/components/toast/ToastContainer.vue'
+import { Icon } from '@iconify/vue'
 import { useTheme } from '@/composables/useTheme'
 
 const { theme, toggle } = useTheme()
@@ -17,8 +18,13 @@ const { theme, toggle } = useTheme()
     <div class="app-bar">
       <header class="builder-header">
         <h1 class="builder-title">Toast Notification Builder</h1>
-        <button class="theme-toggle" type="button" @click="toggle">
-          {{ theme === 'light' ? '🌙' : '☀️' }}
+        <button
+          class="theme-toggle"
+          type="button"
+          :aria-label="theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'"
+          @click="toggle"
+        >
+          <Icon :icon="theme === 'light' ? 'mdi:weather-night' : 'mdi:white-balance-sunny'" />
         </button>
       </header>
     </div>

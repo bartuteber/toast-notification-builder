@@ -12,6 +12,7 @@ export const useConfigStore = defineStore('config', {
     backgroundColor: TYPE_DEFAULTS.success.backgroundColor,
     textColor: '#FFFFFF',
     showIcon: true,
+    icon: TYPE_DEFAULTS.success.icon,
     showCloseButton: true,
     animation: 'slide',
   }),
@@ -27,6 +28,7 @@ export const useConfigStore = defineStore('config', {
       this.backgroundColor = defaults.backgroundColor
       this.title = defaults.title
       this.message = defaults.message
+      this.icon = defaults.icon
     },
     setPersistent(value: boolean) {
       this.duration = value ? 0 : 1

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { CSSProperties } from 'vue'
-import type { NotificationType, ToastProgress, ToastVisual } from '@/types/notification'
+import { Icon } from '@iconify/vue'
+import type { ToastProgress, ToastVisual } from '@/types/notification'
 
 // Pure presentational toast. Knows nothing about the store — it just renders
 // the visual fields, plus an optional progress bar driven entirely by props.
@@ -12,15 +13,6 @@ const props = defineProps<{
 }>()
 
 defineEmits<{ close: [] }>()
-
-const ICONS: Record<NotificationType, string> = {
-  success: '✓',
-  error: '✕',
-  warning: '⚠',
-  info: 'ℹ',
-}
-
-const icon = computed(() => ICONS[props.config.type])
 
 // Countdown drives the fill via a CSS animation whose duration we set inline;
 // static drives it via a fixed scaleX. The keyframe/animation props live in CSS.
@@ -35,15 +27,21 @@ const progressFillStyle = computed<CSSProperties | undefined>(() => {
 
 <template>
   <div class="toast" :style="{ background: config.backgroundColor, color: config.textColor }">
-    <span v-if="config.showIcon" class="toast-icon">{{ icon }}</span>
+    <Icon v-if="config.showIcon && config.icon" class="toast-icon" :icon="config.icon" />
 
     <div class="toast-body">
       <strong v-if="config.title" class="toast-title">{{ config.title }}</strong>
       <p v-if="config.message" class="toast-message">{{ config.message }}</p>
     </div>
 
-    <button v-if="config.showCloseButton" type="button" class="toast-close" @click="$emit('close')">
-      ×
+    <button
+      v-if="config.showCloseButton"
+      type="button"
+      class="toast-close"
+      aria-label="Close"
+      @click="$emit('close')"
+    >
+      <Icon icon="mdi:close" />
     </button>
 
     <div v-if="progress" class="toast-progress">
@@ -71,9 +69,9 @@ const progressFillStyle = computed<CSSProperties | undefined>(() => {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 
   &-icon {
-    font-size: 1.1rem;
-    line-height: 1.4;
+    font-size: 1.5rem;
     flex-shrink: 0;
+    margin-top: 4px;
   }
 
   &-body {
@@ -95,6 +93,9 @@ const progressFillStyle = computed<CSSProperties | undefined>(() => {
   }
 
   &-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
     background: none;
     border: none;

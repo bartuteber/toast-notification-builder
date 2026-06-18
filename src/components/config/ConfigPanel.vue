@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { Icon } from '@iconify/vue'
 import SegmentedControl from '@/components/ui/SegmentedControl.vue'
 import BaseTextField from '@/components/ui/BaseTextField.vue'
 import BaseTextArea from '@/components/ui/BaseTextArea.vue'
 import BaseCheckbox from '@/components/ui/BaseCheckbox.vue'
 import ColorField from '@/components/ui/ColorField.vue'
-import { ANIMATION_OPTIONS, POSITION_OPTIONS, TYPE_OPTIONS } from '@/lib/options.ts'
+import IconPicker from '@/components/ui/IconPicker.vue'
+import { ANIMATION_OPTIONS, ICON_OPTIONS, POSITION_OPTIONS, TYPE_OPTIONS } from '@/lib/options.ts'
 import { storeToRefs } from 'pinia'
 import { useConfigStore } from '@/stores/useConfigStore.ts'
 
@@ -18,6 +20,7 @@ const {
   backgroundColor,
   textColor,
   showIcon,
+  icon,
   showCloseButton,
   animation,
 } = storeToRefs(configStore)
@@ -63,7 +66,10 @@ const persistent = computed({
           :disabled="persistent"
           v-model.number="duration"
         />
-        <span class="slider-row-value">{{ persistent ? '∞' : duration + 's' }}</span>
+        <span class="slider-row-value">
+          <Icon v-if="persistent" icon="mdi:infinity" />
+          <template v-else>{{ duration }}s</template>
+        </span>
       </div>
       <BaseCheckbox v-model="persistent" label="Persistent (no auto-dismiss)" />
     </div>
@@ -93,6 +99,16 @@ const persistent = computed({
         <BaseCheckbox v-model="showCloseButton" label="Show Close Button" />
       </div>
     </div>
+
+    <!-- Icon -->
+    <IconPicker
+      v-model="icon"
+      :options="ICON_OPTIONS"
+      label="Icon"
+      :columns="10"
+      class="icon-field"
+      :class="{ 'is-disabled': !showIcon }"
+    />
 
     <!-- Animation -->
     <SegmentedControl
@@ -153,5 +169,11 @@ const persistent = computed({
 .options-row {
   display: flex;
   gap: var(--space-5);
+}
+
+// when "Show Icon" is off, the picker stays visible but reads as inactive
+.icon-field.is-disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 </style>

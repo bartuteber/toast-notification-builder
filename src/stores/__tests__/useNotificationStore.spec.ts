@@ -11,6 +11,7 @@ const baseDraft: NotificationDraft = {
   backgroundColor: '#3b82f6',
   textColor: '#ffffff',
   showIcon: true,
+  icon: 'mdi:information',
   showCloseButton: true,
   animation: 'fade',
 }

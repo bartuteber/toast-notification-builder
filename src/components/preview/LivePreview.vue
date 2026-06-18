@@ -26,6 +26,7 @@ const toastConfig = computed<ToastVisual>(() => ({
   backgroundColor: configStore.backgroundColor,
   textColor: configStore.textColor,
   showIcon: configStore.showIcon,
+  icon: configStore.icon,
   showCloseButton: configStore.showCloseButton,
 }))
 

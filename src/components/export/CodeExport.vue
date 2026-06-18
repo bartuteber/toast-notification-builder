@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { Icon } from '@iconify/vue'
 import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
 import 'highlight.js/styles/atom-one-dark.css'
@@ -23,6 +24,7 @@ const code = computed(() => {
     backgroundColor: configStore.backgroundColor,
     textColor: configStore.textColor,
     showIcon: configStore.showIcon,
+    icon: configStore.icon,
     showCloseButton: configStore.showCloseButton,
     animation: configStore.animation,
   }
@@ -55,7 +57,8 @@ async function copy() {
 
     <div class="export-wrap">
       <button class="export-copy" type="button" @click="copy">
-        {{ copied ? '✓ Copied' : 'Copy' }}
+        <Icon v-if="copied" icon="mdi:check" />
+        <span>{{ copied ? 'Copied' : 'Copy' }}</span>
       </button>
       <pre class="export-code"><code class="hljs" v-html="highlighted"></code></pre>
     </div>
@@ -84,6 +87,9 @@ async function copy() {
   top: var(--space-2);
   right: var(--space-2);
   z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
   padding: var(--space-1) var(--space-2);
   font-size: var(--font-sm);
   border: 1px solid rgba(255, 255, 255, 0.15);

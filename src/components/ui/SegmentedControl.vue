@@ -1,10 +1,11 @@
 <script setup lang="ts" generic="T extends string">
 import { computed } from 'vue'
+import { Icon } from '@iconify/vue'
 
 interface SegmentOption {
   value: T
   label: string
-  icon?: string
+  icon?: string // Iconify icon name, e.g. 'mdi:check-circle'
 }
 
 const selected = defineModel<T>('selected', { required: true })
@@ -39,7 +40,7 @@ const gridStyle = computed(() => ({
         "
         @click="selected = opt.value"
       >
-        <span v-if="opt.icon" class="seg-icon">{{ opt.icon }}</span>
+        <Icon v-if="opt.icon" class="seg-icon" :icon="opt.icon" />
         <span>{{ opt.label }}</span>
       </button>
     </div>

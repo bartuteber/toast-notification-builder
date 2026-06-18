@@ -12,6 +12,7 @@ export interface NotificationConfig {
   backgroundColor: string
   textColor: string
   showIcon: boolean
+  icon: string // Iconify icon name, e.g. 'mdi:check-circle'
   showCloseButton: boolean
   animation: AnimationValue
 }
@@ -25,7 +26,14 @@ export type NotificationDraft = Omit<NotificationConfig, 'id'>
 // item's, so they're intentionally excluded.
 export type ToastVisual = Pick<
   NotificationConfig,
-  'type' | 'title' | 'message' | 'backgroundColor' | 'textColor' | 'showIcon' | 'showCloseButton'
+  | 'type'
+  | 'title'
+  | 'message'
+  | 'backgroundColor'
+  | 'textColor'
+  | 'showIcon'
+  | 'icon'
+  | 'showCloseButton'
 >
 
 export interface ActiveNotification extends NotificationConfig {

@@ -15,6 +15,7 @@ const draft: NotificationDraft = {
   backgroundColor: '#22c55e',
   textColor: '#ffffff',
   showIcon: true,
+  icon: 'mdi:check-circle',
   showCloseButton: true,
   animation: 'fade',
 }
