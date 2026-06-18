@@ -1,0 +1,14 @@
+{
+  // Type-checks the test files (which the app config deliberately excludes)
+  // with Jest's globals in scope
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": ["env.d.ts", "src/**/__tests__/*", "src/**/*.ts"],
+  "compilerOptions": {
+    "noEmit": true,
+    "noUncheckedIndexedAccess": true,
+    "types": ["jest", "node"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
